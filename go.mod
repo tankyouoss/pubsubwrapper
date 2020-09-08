@@ -1,4 +1,4 @@
-module gitlab.com/tankyouoss/pubsubwrapper
+module github.com/tankyouoss/pubsubwrapper
 
 go 1.14
 

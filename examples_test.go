@@ -19,7 +19,7 @@ import (
 
 	"cloud.google.com/go/pubsub"
 
-	"gitlab.com/tankyouoss/pubsubwrapper"
+	"github.com/tankyouoss/pubsubwrapper"
 )
 
 func ExampleAdaptClient() {
