@@ -16,9 +16,11 @@ package pubsubwrapper
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"cloud.google.com/go/pubsub"
+	"google.golang.org/api/iterator"
 )
 
 // AdaptClient adapts a pubsub.Client so that it satisfies the Client
@@ -71,24 +73,35 @@ func (c client) Subscription(id string) Subscription {
 	return subscription{c.Client.Subscription(id)}
 }
 
-func (c client) Topics(ctx context.Context) (topics []Topic) {
+func (c client) Topics(ctx context.Context) (topics []Topic, err error) {
 	topicIterator := c.Client.Topics(ctx)
 	for {
 		top, err := topicIterator.Next()
-		if err != nil { // iterator is done (other errors are not relevant for the user any way and have to stop the process.
-			return topics
+
+		if err != nil {
+			if errors.Is(err, iterator.Done); err != nil { // iterator is done (other errors are not relevant for the user any way and have to stop the process.
+				return topics, nil
+			}
+			return nil, err
 		}
+
 		topics = append(topics, topic{top})
 	}
 }
 
-func (c client) Subscriptions(ctx context.Context) (subscriptions []Subscription) {
+func (c client) Subscriptions(ctx context.Context) (subscriptions []Subscription, err error) {
 	subscriptionIterator := c.Client.Subscriptions(ctx)
 	for {
 		sub, err := subscriptionIterator.Next()
-		if err != nil { // iterator is done (other errors are not relevant for the user any way and have to stop the process.
-			return subscriptions
+
+
+		if err != nil {
+			if errors.Is(err, iterator.Done); err != nil { // iterator is done (other errors are not relevant for the user any way and have to stop the process.
+				return subscriptions, nil
+			}
+			return nil, err
 		}
+
 		subscriptions = append(subscriptions, subscription{sub})
 	}
 }

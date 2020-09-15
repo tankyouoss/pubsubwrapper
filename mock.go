@@ -26,9 +26,9 @@ func (c *ClientMock) Topic(id string) Topic {
 	return args.Get(0).(Topic)
 }
 
-func (c *ClientMock) Topics(ctx context.Context) []Topic {
+func (c *ClientMock) Topics(ctx context.Context) ([]Topic, error) {
 	args := c.Called(ctx)
-	return args.Get(0).([]Topic)
+	return args.Get(0).([]Topic), args.Error(1)
 }
 
 func (c *ClientMock) CreateSubscription(ctx context.Context, id string, cfg SubscriptionConfig) (Subscription, error) {
@@ -41,9 +41,9 @@ func (c *ClientMock) Subscription(id string) Subscription {
 	return args.Get(0).(Subscription)
 }
 
-func (c *ClientMock) Subscriptions(ctx context.Context) []Subscription {
+func (c *ClientMock) Subscriptions(ctx context.Context) ([]Subscription, error) {
 	args := c.Called(ctx)
-	return args.Get(0).([]Subscription)
+	return args.Get(0).([]Subscription), args.Error(1)
 }
 
 func (c *ClientMock) embedToIncludeNewMethods() {}

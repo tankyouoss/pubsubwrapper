@@ -23,11 +23,11 @@ type (
 	Client interface {
 		CreateTopic(ctx context.Context, topicID string) (Topic, error)
 		Topic(id string) Topic
-		Topics(ctx context.Context) []Topic
+		Topics(ctx context.Context) ([]Topic, error)
 
 		CreateSubscription(ctx context.Context, id string, cfg SubscriptionConfig) (Subscription, error)
 		Subscription(id string) Subscription
-		Subscriptions(ctx context.Context) []Subscription
+		Subscriptions(ctx context.Context) ([]Subscription, error)
 
 		embedToIncludeNewMethods()
 	}
