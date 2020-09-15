@@ -75,7 +75,7 @@ func (c client) Topics(ctx context.Context) (topics []Topic) {
 	topicIterator := c.Client.Topics(ctx)
 	for {
 		top, err := topicIterator.Next()
-		if err == nil { // iterator is done (other errors are not relevant for the user any way and have to stop the process.
+		if err != nil { // iterator is done (other errors are not relevant for the user any way and have to stop the process.
 			return topics
 		}
 		topics = append(topics, topic{top})
@@ -86,7 +86,7 @@ func (c client) Subscriptions(ctx context.Context) (subscriptions []Subscription
 	subscriptionIterator := c.Client.Subscriptions(ctx)
 	for {
 		sub, err := subscriptionIterator.Next()
-		if err == nil { // iterator is done (other errors are not relevant for the user any way and have to stop the process.
+		if err != nil { // iterator is done (other errors are not relevant for the user any way and have to stop the process.
 			return subscriptions
 		}
 		subscriptions = append(subscriptions, subscription{sub})
